@@ -1,4 +1,4 @@
-package com.sia.tacocloud;
+package tacos;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -9,7 +9,7 @@ public class Ingredient {
 
     private final String id;
     private final String name;
-    private final String type;
+    private final Type type;
 
     public static enum Type {
         WRAP, PROTEIN, VEGGIES, CHEESE, SAUCE
