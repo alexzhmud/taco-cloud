@@ -1,6 +1,9 @@
 package tacos.web;
 
 
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import tacos.Ingredient;
 import tacos.Ingredient.Type;
 import lombok.extern.slf4j.Slf4j;
@@ -10,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import tacos.Taco;
 
+import javax.validation.Valid;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,8 +23,8 @@ import java.util.stream.Collectors;
 @Controller
 @RequestMapping("/design")
 public class DesignTacoController {
-    @GetMapping
-    public String showDesignFrom(Model model){
+    @ModelAttribute
+    public void addIngredientsToModel(Model model){
         List<Ingredient> ingredients = Arrays.asList(
                 new Ingredient("FLTO", "Flour Tortilla", Type.WRAP),
                 new Ingredient("COTO", "Corn Tortilla", Type.WRAP),
@@ -39,11 +43,24 @@ public class DesignTacoController {
             model.addAttribute(type.toString().toLowerCase(),
                     filterByType(ingredients, type));
         }
+    }
 
+    @GetMapping
+    public String showDesignFrom(Model model){
         model.addAttribute("design", new Taco());
-
         return "design";
     }
+
+    @PostMapping
+    public String processDesign(@Valid @ModelAttribute("design") Taco design, Errors errors, Model model){
+        if (errors.hasErrors())
+            return "design";
+
+        log.info("Processing design: " + design);
+
+        return "redirect:/orders/current";
+    }
+
     private List<Ingredient> filterByType(
             List<Ingredient> ingredients, Type type) {
         return ingredients
