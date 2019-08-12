@@ -1,4 +1,4 @@
-package com.sia.tacocloud;
+package tacos;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
