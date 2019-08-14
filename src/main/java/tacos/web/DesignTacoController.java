@@ -52,9 +52,9 @@ public class DesignTacoController {
     }
 
     @PostMapping
-    public String processDesign(@Valid @ModelAttribute("design") Taco design, Errors errors, Model model){
-        if (errors.hasErrors())
-            return "design";
+    public String processDesign( Taco design, Errors errors, Model model){
+//        if (errors.hasErrors())
+//            return "design";
 
         log.info("Processing design: " + design);
 
