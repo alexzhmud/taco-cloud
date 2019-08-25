@@ -21,7 +21,6 @@ public class JdbcTacoRepository implements TacoRepository {
     public JdbcTacoRepository(JdbcTemplate jdbc){
         this.jdbc = jdbc;
     }
-
     @Override
     public Taco save(Taco taco) {
         long tacoId = saveTacoInfo(taco);
@@ -37,8 +36,8 @@ public class JdbcTacoRepository implements TacoRepository {
         PreparedStatementCreator psc =
                 new PreparedStatementCreatorFactory(
                         "insert into Taco (name, createdAt) values (?, ?)",
-                        Types.VARCHAR, Types.TIMESTAMP
-                ).newPreparedStatementCreator(
+                        Types.VARCHAR, Types.TIMESTAMP)
+                        .newPreparedStatementCreator(
                         Arrays.asList(
                                 taco.getName(),
                                 new Timestamp(taco.getCreatedAt().getTime())));
